@@ -1,7 +1,7 @@
 <div align="center">
 
   <h1>[MED] [3D] [GEN] CT GAN</h1>
-  <p>In this repository you will find a Keras implementation of CT-GAN: A framework for adding or removing evidence in 3D volumetric medical scans. In this readme, you will find a description of CT-GAN, examples of how to use the code, and links to our tampered datasets.</p>
+  <p>In this repository you will find a Keras implementation of CT-GAN: A framework for adding or removing evidence in 3D volumetric medical scans. In this readme, you will find a description of CT-GAN, examples of how to use the code, and links to our datasets.</p>
 
 </div>
 
