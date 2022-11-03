@@ -30,6 +30,7 @@ from utils.equalizer import *
 from utils.dicom_utils import *
 from utils.utils import *
 
+
 class Extractor:
     #is_healthy_dataset: indicates if the datset are of healthy scans or of unhealthy scans
     #src_dir: Path to directory containing all of the scans (folders of dicom series, or mhd/raw files)
@@ -56,6 +57,8 @@ class Extractor:
             self.dst_path = dst_path if dst_path is not None else config['unhealthy_samples']
             self.norm_save_dir = norm_save_dir if norm_save_dir is not None else config['modelpath_inject']
             self.coords = pd.read_csv(coords_csv_path) if coords_csv_path is not None else pd.read_csv(config['unhealthy_coords'])
+        self.src_dir = os.path.normpath(self.src_dir)
+        self.dst_path = os.path.normpath(self.dst_path)
 
     def extract(self,plot=True):
         # Prep jobs (one per coordinate)
@@ -65,7 +68,7 @@ class Extractor:
             coord = np.array([sample.z, sample.y, sample.x])
             if not pd.isnull(sample.z):
                 #job: (path to scan, coordinate, instance shape, coord system 'vox' or 'world')
-                J.append([os.path.join(self.src_dir,sample.filename), coord, config['cube_shape'], self.coordSystem])
+                J.append([os.path.join(self.src_dir,str(sample.filename)), coord, config['cube_shape'], self.coordSystem])
 
         print("extracting and augmenting samples...")
         if self.parallelize:
@@ -74,10 +77,7 @@ class Extractor:
         else:
             X = []
             for job in J:
-                try:
-                    X.append(self._processJob(job))
-                except:
-                    print("Failed to process sample")
+                X.append(self._processJob(job))
         instances = np.array(list(itertools.chain.from_iterable(X))) #each job creates a batch of augmented instances: so collect hem
 
         # Histogram Equalization:
