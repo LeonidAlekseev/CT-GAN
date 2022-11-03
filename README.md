@@ -1,16 +1,19 @@
-Run our demo using Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1B-6tqW1E5kRfxL0FxuDyGgYr3GvDmlig)
+<div align="center">
 
-# Overview
-In this repository you will find a Keras implementation of CT-GAN: A framework for adding or removing evidence in 3D volumetric medical scans. In this readme, you will find a description of CT-GAN, examples of how to use the code, and links to our tampered datasets. For more details, please see our publication:
+  <h1>[MED] [3D] [GEN] CT GAN</h1>
+  <p>In this repository you will find a Keras implementation of CT-GAN: A framework for adding or removing evidence in 3D volumetric medical scans. In this readme, you will find a description of CT-GAN, examples of how to use the code, and links to our tampered datasets.</p>
 
-*Yisroel Mirsky, Tom Mahler, Ilan Shelef, and Yuval Elovici. CT-GAN: Malicious Tampering of 3D Medical Imagery using Deep Learning. 28th USENIX Security Symposium (USENIX Security 19)*
+</div>
 
-([full paper here](https://www.usenix.org/system/files/sec19-mirsky_0.pdf))
-Links to datasets are found below.
-For access to the pretrained models, please reach out to me (contact below). We will only supply the models to verified academic researchers.
+<div align="center">
 
-**Disclaimer**: This code has been published for research purposes only. It is our hope that with this code, others will be able to better understand this threat and find better ways to mitigate it.
- 
+  <a href="https://arxiv.org/pdf/1901.03597v3.pdf">![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)</a>
+  <a href="https://colab.research.google.com/drive/1B-6tqW1E5kRfxL0FxuDyGgYr3GvDmlig">![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)</a>
+
+</div>
+
+<hr />
+
 
 ## What is CT-GAN?
 
@@ -64,10 +67,6 @@ The cGAN architecture (layers and configurations) used for training the injector
 in a 64x64x16 cuboid:*
 ![](https://raw.githubusercontent.com/ymirsky/CT-GAN/master/readme/braintrain.png)
 
-*Demo video:*
-[![](https://raw.githubusercontent.com/ymirsky/CT-GAN/master/readme/demovid.png)](https://youtu.be/_mkRAArj-x0)
-
-
 ## This version's features and limitations
 **Features**
 
@@ -95,17 +94,9 @@ Example scripts for running CT-GAN are in the main directory:
 
 ## Implementation Notes: 
 
-* Tested on Windows Server 2012 R2 with 256GB RAM: using two Intel Xeon CPUs (E5-2660 v4 with 28 Logical Processor(s))
-* Tested on an Ubuntu v4.4.0-142 with 128GB RAM and Xeon E7 CPUs (16 cores): using one Nvidia Titan X Pascal (Driver 418.46, CUDA 10.1)
-* Tested using Anaconda 3.7.3, Keras with the tensorflow back-end v1.13.1
 * Python dependencies: 
 	* Common in most installations: multiprocessing, joblib, itertools, numpy, pickle
 	* What you may need to install: keras, tensorflow, SimpleITK, pydicom, scipy, pandas, matplotlib
-
-To install the dependencies, run this in the terminal:
-```
-pip install --upgrade scipy matplotlib pandas tensorflow keras SimpleITK pydicom
-```
  
 ## Coordinate Systems
 Coordinates in a medical scans can be denoted using world coordinates or image (voxel) coordinates. In order to use CT-GAN you need to be familiar with the difference between these systems. [[source](https://www.slicer.org/wiki/Coordinate_systems)]
@@ -261,6 +252,3 @@ publisher = {{USENIX} Association},
 month = aug,
 }
 ```
-
-Yisroel Mirsky
-yisroel@post.bgu.ac.il
