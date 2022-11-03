@@ -4,21 +4,22 @@ from keras import backend as K
 
 #consider your coordinate system, and x vs y
 
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 config = {}
 
 # Data Location
-config['healthy_scans_raw'] = "data/healthy_scans/" #path to directory where the healthy scans are. Filename is patient ID.
-config['healthy_coords'] = "data/healthy_coords.csv" #path to csv where each row indicates where a healthy sample is (format: filename, x, y, z). 'fileneame' is the folder containing the dcm files of that scan or the mhd file name, slice is the z axis
-config['healthy_samples'] = "data/healthy_samples.npy" #path to pickle dump of processed healthy samples for training.
-config['unhealthy_scans_raw'] = "data/unhealthy_scans/" #path to directory where the unhealthy scans are
-config['unhealthy_coords'] = "data/unhealthy_coords.csv" #path to csv where each row indicates where a healthy sample is (format: filename, x, y ,z)
-config['unhealthy_samples'] = "data/unhealthy_samples.npy" #path to pickle dump of processed healthy samples for training.
+config['healthy_scans_raw'] = os.path.join(BASE_DIR, "data", "healthy_scans") #path to directory where the healthy scans are. Filename is patient ID.
+config['healthy_coords'] = os.path.join(BASE_DIR, "data", "healthy_coords.csv") #path to csv where each row indicates where a healthy sample is (format: filename, x, y, z). 'fileneame' is the folder containing the dcm files of that scan or the mhd file name, slice is the z axis
+config['healthy_samples'] = os.path.join(BASE_DIR, "data", "healthy_samples.npy") #path to pickle dump of processed healthy samples for training.
+config['unhealthy_scans_raw'] = os.path.join(BASE_DIR, "data", "unhealthy_scans") #path to directory where the unhealthy scans are
+config['unhealthy_coords'] = os.path.join(BASE_DIR, "data", "unhealthy_coords.csv") #path to csv where each row indicates where a healthy sample is (format: filename, x, y ,z)
+config['unhealthy_samples'] = os.path.join(BASE_DIR, "data", "unhealthy_samples.npy") #path to pickle dump of processed healthy samples for training.
 
-config['traindata_coordSystem'] = "world" # the coord system used to note the locations of the evidence ('world' or 'vox'). vox is array index.
+config['traindata_coordSystem'] = "vox" # the coord system used to note the locations of the evidence ('world' or 'vox'). vox is array index.
 
 # Model & Progress Location
-config['modelpath_inject'] = os.path.join("data","models","INJ") #path to save/load trained models and normalization parameters for injector
-config['modelpath_remove'] = os.path.join("data","models","REM") #path to save/load trained models and normalization parameters for remover
+config['modelpath_inject'] = os.path.join(BASE_DIR, "data","models","INJ") #path to save/load trained models and normalization parameters for injector
+config['modelpath_remove'] = os.path.join(BASE_DIR, "data","models","REM") #path to save/load trained models and normalization parameters for remover
 config['progress'] = "images" #path to save snapshots of training progress
 
 # tensorflow configuration
