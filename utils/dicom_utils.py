@@ -28,7 +28,7 @@ def load_mhd(path2scan):
 def load_dicom(path2scan_dir):
     dicom_folder = path2scan_dir
     dcms = os.listdir(dicom_folder)
-    first_slice_data = pydicom.read_file(path2scan_dir + '\\' + dcms[0])
+    first_slice_data = pydicom.read_file(os.path.join(path2scan_dir, dcms[0]))
     first_slice = first_slice_data.pixel_array
     orientation = np.transpose(first_slice_data.ImageOrientationPatient) #zyx format
     spacing_xy = np.array(first_slice_data.PixelSpacing, dtype=float)
@@ -39,7 +39,7 @@ def load_dicom(path2scan_dir):
     raw_slices=[]
     indexes = []
     for dcm in dcms:
-        slice_data = pydicom.read_file(dicom_folder + '\\' + dcm)
+        slice_data = pydicom.read_file(os.path.join(dicom_folder, dcm))
         slice_data.filename = dcm
         raw_slices.append(slice_data)
         indexes.append(float(slice_data.ImagePositionPatient[2]))
