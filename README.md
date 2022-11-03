@@ -1,3 +1,5 @@
+Run our demo using Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1B-6tqW1E5kRfxL0FxuDyGgYr3GvDmlig)
+
 # Overview
 In this repository you will find a Keras implementation of CT-GAN: A framework for adding or removing evidence in 3D volumetric medical scans. In this readme, you will find a description of CT-GAN, examples of how to use the code, and links to our tampered datasets. For more details, please see our publication:
 
