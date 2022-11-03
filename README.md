@@ -15,7 +15,7 @@
 <hr />
 
 
-## What is CT-GAN?
+# What is CT-GAN?
 
 In 2018, clinics and hospitals were hit with numerous attacks
 leading to significant data breaches and interruptions in
