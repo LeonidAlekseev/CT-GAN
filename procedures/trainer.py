@@ -36,6 +36,7 @@ from keras.optimizers import Adam
 import matplotlib.pyplot as plt
 import datetime
 import numpy as np
+from tqdm.auto import tqdm
 
 import tensorflow as tf
 import keras.backend.tensorflow_backend as ktf
@@ -218,7 +219,7 @@ class Trainer:
         valid = np.zeros((batch_size,) + self.disc_patch)
         fake = np.ones((batch_size,) + self.disc_patch)
 
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             # save model
             if epoch > 0:
                 print("Saving Models...")
@@ -226,7 +227,7 @@ class Trainer:
                 self.discriminator.save(
                     os.path.join(self.modelpath, "D_model.h5"))  # creates a HDF5 file 'my_model.h5'
 
-            for batch_i, (imgs_A, imgs_B) in enumerate(self.dataloader.load_batch(batch_size)):
+            for batch_i, (imgs_A, imgs_B) in enumerate(tqdm(self.dataloader.load_batch(batch_size))):
                 # ---------------------
                 #  Train Discriminator
                 # ---------------------
