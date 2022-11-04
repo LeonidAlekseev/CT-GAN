@@ -60,8 +60,8 @@ dependencies:
   - grpcio=1.42.0=py37hce63b2e_0
   - gst-plugins-base=1.21.1=h3e40eee_1
   - gstreamer=1.21.1=hd4edc92_1
-  - h5py=3.7.0=nompi_py37hf1ce037_101
-  - hdf5=1.12.2=nompi_h2386368_100
+  - h5py=2.10.0=nompi_py37ha3df211_106
+  - hdf5=1.10.6=nompi_h6a2412b_1114
   - icu=70.1=h27087fc_0
   - idna=3.4=pyhd8ed1ab_0
   - imagecodecs-lite=2019.12.3=py37hc105733_5
@@ -85,8 +85,8 @@ dependencies:
   - jupyterlab_widgets=1.1.0=pyhd8ed1ab_0
   - kaggle=1.5.12=pyhd8ed1ab_4
   - keras-applications=1.0.8=py_1
-  - keras-base=2.2.4=py37_0
-  - keras-gpu=2.2.4=0
+  - keras-base=2.3.1=py37_0
+  - keras-gpu=2.3.1=0
   - keras-preprocessing=1.1.2=pyhd3eb1b0_0
   - keyutils=1.6.1=h166bdaf_0
   - kiwisolver=1.4.4=py37h7cecad7_0
@@ -118,8 +118,8 @@ dependencies:
   - libglib=2.74.1=h7a41b64_0
   - libgomp=12.2.0=h65d4601_19
   - libiconv=1.17=h166bdaf_0
-  - libitk=5.2.1=hcedbc38_6
-  - libitk-devel=5.2.1=h0a2745d_6
+  - libitk=5.2.0=hdddff26_4
+  - libitk-devel=5.2.0=h6eb4826_4
   - liblapack=3.9.0=16_linux64_openblas
   - libllvm15=15.0.3=h63197d8_1
   - libnghttp2=1.47.0=hdcd2b5c_1
@@ -215,7 +215,7 @@ dependencies:
   - send2trash=1.8.0=pyhd8ed1ab_0
   - setuptools=59.8.0=py37h89c1867_1
   - simplegeneric=0.8.1=py_1
-  - simpleitk=2.1.1.1=py37h78a9f20_0
+  - simpleitk=2.1.0=py37h33e1a97_1
   - sip=6.6.2=py37hd23a5d3_0
   - six=1.16.0=pyh6c4a22f_0
   - sqlite=3.39.4=h4ff8645_0
