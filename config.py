@@ -1,8 +1,6 @@
 import os
 import numpy as np
 from keras import backend as K
-import warnings
-warnings.filterwarnings("ignore")
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -21,7 +19,7 @@ config['traindata_coordSystem'] = "vox" # the coord system used to note the loca
 # Model & Progress Location
 config['modelpath_inject'] = os.path.join(BASE_DIR, "data", "models", "INJ") #path to save/load trained models and normalization parameters for injector
 config['modelpath_remove'] = os.path.join(BASE_DIR, "data", "models", "REM") #path to save/load trained models and normalization parameters for remover
-config['progress'] = os.path.join(BASE_DIR, "images") #path to save snapshots of training progress
+config['progress'] = os.path.join(BASE_DIR, "data", "images") #path to save snapshots of training progress
 
 # tensorflow configuration
 devices = K.tensorflow_backend._get_available_gpus()
