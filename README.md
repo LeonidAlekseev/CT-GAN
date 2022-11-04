@@ -92,11 +92,12 @@ Example scripts for running CT-GAN are in the main directory:
 * **tamper.py**						: An all-in-one command-line tool for tampering scans given the trained model(s). 
 * **GUI.py**						: An interactive GUI for point and click scan tampering 
 
-## Implementation Notes: 
-
-* Python dependencies: 
-	* Common in most installations: multiprocessing, joblib, itertools, numpy, pickle
-	* What you may need to install: keras, tensorflow, SimpleITK, pydicom, scipy, pandas, matplotlib
+## Installing Dependencies 
+Create conda env with yml file and activate
+```
+conda env create -f environment.yml
+conda activate swin_unetr
+```
  
 ## Coordinate Systems
 Coordinates in a medical scans can be denoted using world coordinates or image (voxel) coordinates. In order to use CT-GAN you need to be familiar with the difference between these systems. [[source](https://www.slicer.org/wiki/Coordinate_systems)]
