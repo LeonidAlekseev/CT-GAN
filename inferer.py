@@ -19,6 +19,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--task_form', type=str, required=True, help="task form")
 parser.add_argument('-d', '--data_path', type=str, required=True, help="data path")
+parser.add_argument('-l', '--locations', type=str, required=True, help="locations")
 parser.add_argument('-p', '--prediction_path', type=str, required=True, help="prediction path")
 parser.add_argument('-v', '--visualization_path', type=str, required=True, help="visualization path")
 args = parser.parse_args()
