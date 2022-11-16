@@ -20,6 +20,7 @@ INFERER_PATH = os.path.join(os.path.dirname(BASE_DIR), 'inferer.py')
 TASK_PARAMS = {
     '3D Generation cancer': (
         '3d_ct_gan_cancer',
+        2
     ),
 }
 
@@ -120,12 +121,12 @@ class Predict(Resource):
         save_dir = os.path.join(app.config['PREDICT_DIR'], predict_uuid)
         os.makedirs(save_dir, exist_ok=True)
         try:
-            weights_path = TASK_PARAMS[task]
+            weights_path, out_channels = TASK_PARAMS[task]
             weights_path = os.path.join(app.config['WEIGHTS_DIR'], weights_path)
             data_path = os.path.join(app.config['UPLOAD_DIR'], data, 'dicom')
             result_path = save_dir
             visualization_path = os.path.join(result_path, 'visualization.png')
-            subprocess.call(f'{INTERPRETATOR_CMD} {INFERER_PATH} -t "{task}" -w {weights_path} -d {data_path} -l {locations} -p {result_path} -v {visualization_path}', shell=True)
+            subprocess.call(f'{INTERPRETATOR_CMD} {INFERER_PATH} -t "{task}" -w {weights_path} -d {data_path} -l "{locations}" -p {result_path} -v {visualization_path}', shell=True)
         except Exception as e:
             return {
                 'message' : f"Inferer error {e}",
