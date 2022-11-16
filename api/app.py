@@ -20,7 +20,6 @@ INFERER_PATH = os.path.join(os.path.dirname(BASE_DIR), 'inferer.py')
 TASK_PARAMS = {
     '3D Generation cancer': (
         '3d_ct_gan_cancer',
-        3,
     ),
 }
 
@@ -121,7 +120,7 @@ class Predict(Resource):
         save_dir = os.path.join(app.config['PREDICT_DIR'], predict_uuid)
         os.makedirs(save_dir, exist_ok=True)
         try:
-            weights_path, out_channels = TASK_PARAMS[task]
+            weights_path = TASK_PARAMS[task]
             weights_path = os.path.join(app.config['WEIGHTS_DIR'], weights_path)
             data_path = os.path.join(app.config['UPLOAD_DIR'], data, 'dicom')
             result_path = save_dir
