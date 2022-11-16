@@ -5,5 +5,8 @@ __pycache__/
 
 data/
 runs/
+weights/
+predict/
+upload/
 
 images/injector/
