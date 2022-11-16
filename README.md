@@ -97,7 +97,7 @@ Example scripts for running CT-GAN are in the main directory:
 Create conda env with yml file and activate
 ```
 conda env create -f environment.yml
-conda activate swin_unetr
+conda activate ct_gan
 ```
  
 ## Coordinate Systems
