@@ -1,4 +1,5 @@
 import os
+import re
 import glob
 import subprocess
 from io import BytesIO
@@ -88,8 +89,11 @@ class Upload(Resource):
         data_uuid = str(uuid.uuid4())
         save_dir = os.path.join(app.config['UPLOAD_DIR'], data_uuid, 'dicom')
         os.makedirs(save_dir, exist_ok=True)
-        # save_path = os.path.join(save_dir, secure_filename(data.filename))
-        # data.save(save_path)
+        data_object = data.stream._file  
+        zip_object = zipfile.ZipFile(data_object)
+        for el in zip_object.infolist():
+            if re.match(r'*.dcm$', el.filename):
+                zip_object.extract(el, path=save_dir)
         return {
             'message' : 'Successfully uploaded',
             'uuid': data_uuid,
