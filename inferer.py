@@ -186,7 +186,7 @@ class scan_manipulator:
 
 nifti_data_path = data_path + '.nii.gz'
 nifti_injected_path = prediction_path + '.nii.gz'
-dicom_injected_path = os.join(prediction_path, 'dicom')
+dicom_injected_path = os.path.join(prediction_path, 'dicom')
 
 
 injector = scan_manipulator(model_path=model_weights_path)
