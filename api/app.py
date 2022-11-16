@@ -14,11 +14,11 @@ from werkzeug.utils import secure_filename
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-INTERPRETATOR_CMD = 'sudo /home/natitov/miniforge/envs/ct_gan/bin/python'
+INTERPRETATOR_CMD = 'sudo /home/natitov/miniforge3/envs/ct_gan/bin/python'
 INFERER_PATH = os.path.join(os.path.dirname(BASE_DIR), 'inferer.py')
 TASK_PARAMS = {
     '3D Generation cancer': (
-        '3d_ct_gan_cancer.h5',
+        '3d_ct_gan_cancer',
         3,
     ),
 }
@@ -29,7 +29,7 @@ app.secret_key = "20222022"
 app.config['WEIGHTS_DIR'] = os.path.join(BASE_DIR, 'weights')
 app.config['PREDICT_DIR'] = os.path.join(BASE_DIR, 'predict')
 app.config['UPLOAD_DIR'] = os.path.join(BASE_DIR, 'upload')
-app.config['ALLOWED_EXTENSIONS'] = ('.nii.gz')
+app.config['ALLOWED_EXTENSIONS'] = ('.zip')
 app.config['MAX_CONTENT_LENGTH'] = 1024**4
 
 os.makedirs(app.config['WEIGHTS_DIR'], exist_ok=True)
@@ -49,6 +49,7 @@ predict_parser = api.parser()
 predict_parser.add_argument('task', required=True, location='args',
     choices=list(TASK_PARAMS.keys()))
 predict_parser.add_argument('data', required=True, location='args')
+predict_parser.add_argument('locations', required=True, location='args')
 
 export_parser = api.parser()
 export_parser.add_argument('predict', required=True, location='args')
@@ -63,11 +64,11 @@ def check_extention(filename):
     return is_supported
 
 
-@api.route('/upload', doc={'description': 'Upload NIfTI files'})
+@api.route('/upload', doc={'description': 'Upload ZIP archive with DICOM'})
 class Upload(Resource):
     @api.expect(upload_parser)
     @api.doc(params={
-        'data': 'NIfTI files',
+        'data': 'ZIP archive with DICOM',
     })
     @api.marshal_with(api.model('Upload', {
         'message': fields.String,
@@ -85,10 +86,10 @@ class Upload(Resource):
                 'message' : f"Allowed file types are {app.config['ALLOWED_EXTENSIONS']}",
             }, 400
         data_uuid = str(uuid.uuid4())
-        save_dir = os.path.join(app.config['UPLOAD_DIR'], data_uuid)
+        save_dir = os.path.join(app.config['UPLOAD_DIR'], data_uuid, 'dicom')
         os.makedirs(save_dir, exist_ok=True)
-        save_path = os.path.join(save_dir, secure_filename(data.filename))
-        data.save(save_path)
+        # save_path = os.path.join(save_dir, secure_filename(data.filename))
+        # data.save(save_path)
         return {
             'message' : 'Successfully uploaded',
             'uuid': data_uuid,
@@ -99,6 +100,7 @@ class Upload(Resource):
 class Predict(Resource):
     @api.expect(predict_parser)
     @api.doc(params={
+        'locations': 'Locations coordinates (Example: x,y,z;x,y,z)',
         'data': 'Upload uuid',
         'task': 'Target task',
     })
@@ -110,6 +112,7 @@ class Predict(Resource):
         args = predict_parser.parse_args()
         task = args['task']
         data = args['data']
+        locations = args['locations']
         predict_uuid = str(uuid.uuid4())
         save_dir = os.path.join(app.config['PREDICT_DIR'], predict_uuid)
         os.makedirs(save_dir, exist_ok=True)
@@ -119,7 +122,6 @@ class Predict(Resource):
             data_path = os.path.join(app.config['UPLOAD_DIR'], data, 'dicom')
             result_path = save_dir
             visualization_path = os.path.join(result_path, 'visualization.png')
-            locations = 'xyz' 
             subprocess.call(f'{INTERPRETATOR_CMD} {INFERER_PATH} -t "{task}" -w {weights_path} -d {data_path} -l {locations} -p {result_path} -v {visualization_path}', shell=True)
         except Exception as e:
             return {
