@@ -197,7 +197,7 @@ nifti_injected_path = os.path.join(prediction_path, 'injected.nii.gz')
 injector = scan_manipulator(model_path=model_weights_path)
 injector.load_target_scan(dicom_source_path)
 locations = [s.split(',') for s in locations.split(';')]
-locations = [[s[2], s[0], s[1]] for s in locations]
+locations = [[int(s[2]), int(s[0]), int(s[1])] for s in locations]
 for loc in locations:
     injector.tamper(np.array(loc), action='inject', isVox=True)
 injector.save_tampered_scan(dicom_injected_path, output_type='dicom')
@@ -210,11 +210,11 @@ test_image = np.transpose(test_image_nib.get_fdata(), (2, 1, 0))[:, -1::-1, -1::
 test_injected = np.transpose(test_injected_nib.get_fdata(), (2, 1, 0))[:, -1::-1, -1::-1]
 
 scatters = [[],[],[]]
-for x,y,z in locations:
-    scatters[1].append(x)
-    scatters[2].append(y)
+for z,x,y in locations:
+    scatters[2].append(x)
+    scatters[1].append(y)
     scatters[0].append(z)
-fig, axs = plt.subplots(3, 2, figsize=(12, 18))
+fig, axs = plt.subplots(len(locations), 2, figsize=(12, len(locations)*6))
 for i, z in enumerate(scatters[0]):
     axs[i, 0].imshow(test_image[z], cmap='gray')
     axs[i, 0].scatter(scatters[1], scatters[2], s=300, facecolors='none', edgecolors='r')
