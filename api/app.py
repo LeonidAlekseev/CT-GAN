@@ -92,7 +92,6 @@ class Upload(Resource):
         zip_object = zipfile.ZipFile(data_object)
         for el in zip_object.infolist():
             if '/' not in el.filename and el.filename.endswith('.dcm'):
-                print(el.filename)
                 zip_object.extract(el, path=save_dir)
         return {
             'message' : 'Successfully uploaded',
@@ -104,7 +103,7 @@ class Upload(Resource):
 class Predict(Resource):
     @api.expect(predict_parser)
     @api.doc(params={
-        'locations': 'Locations coordinates (Example: x,y,z;x,y,z)',
+        'locations': 'Coordinates x,y,z;x,y,z (e.g. 300,330,159;350,350,159)',
         'data': 'Upload uuid',
         'task': 'Target task',
     })
