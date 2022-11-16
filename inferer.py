@@ -16,6 +16,11 @@ import subprocess
 import argparse
 
 
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+INTERPRETATOR_CMD = 'sudo /home/natitov/miniforge3/envs/ct_gan/bin/python'
+CONVERTER_PATH = os.path.join(BASE_DIR, 'utils', 'dicom_to_nifti.py')
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--task_form', type=str, required=True, help="task form")
 parser.add_argument('-w', '--model_weights_path', type=str, required=True, help="model weights path")
@@ -184,22 +189,22 @@ class scan_manipulator:
         self.scan = pasteCube(self.scan, final_cube_s, coord)
 
 
-nifti_data_path = data_path + '.nii.gz'
-nifti_injected_path = prediction_path + '.nii.gz'
+dicom_source_path = data_path
+nifti_source_path = os.path.join(prediction_path, 'source.nii.gz')
 dicom_injected_path = os.path.join(prediction_path, 'dicom')
-
+nifti_injected_path = os.path.join(prediction_path, 'injected.nii.gz')
 
 injector = scan_manipulator(model_path=model_weights_path)
-injector.load_target_scan(data_path)
+injector.load_target_scan(dicom_source_path)
 locations = [s.split(',') for s in locations.split(';')]
 locations = [[s[2], s[0], s[1]] for s in locations]
 for loc in locations:
     injector.tamper(np.array(loc), action='inject', isVox=True)
 injector.save_tampered_scan(dicom_injected_path, output_type='dicom')
 
-
-subprocess.run([f"python utils/dicom_to_nifti.py -i {dicom_injected_path} -o {nifti_injected_path}"])
-test_image_nib = nib.load(nifti_data_path)
+subprocess.call(f"{INTERPRETATOR_CMD} {CONVERTER_PATH} -i {dicom_source_path} -o {nifti_source_path}", shell=True)
+subprocess.call(f"{INTERPRETATOR_CMD} {CONVERTER_PATH} -i {dicom_injected_path} -o {nifti_injected_path}", shell=True)
+test_image_nib = nib.load(nifti_source_path)
 test_injected_nib = nib.load(nifti_injected_path)
 test_image = np.transpose(test_image_nib.get_fdata(), (2, 1, 0))[:, -1::-1, -1::-1]
 test_injected = np.transpose(test_injected_nib.get_fdata(), (2, 1, 0))[:, -1::-1, -1::-1]
@@ -210,11 +215,11 @@ for x,y,z in locations:
     scatters[2].append(y)
     scatters[0].append(z)
 fig, axs = plt.subplots(3, 2, figsize=(12, 18))
-for i, z in enumerate(locations[0]):
+for i, z in enumerate(scatters[0]):
     axs[i, 0].imshow(test_image[z], cmap='gray')
-    axs[i, 0].scatter(locations[1], locations[2], s=300, facecolors='none', edgecolors='r')
+    axs[i, 0].scatter(scatters[1], scatters[2], s=300, facecolors='none', edgecolors='r')
     axs[i, 0].set_title(f'Image shape: {test_image.shape} | Slice: {z}')
     axs[i, 1].imshow(test_injected[z], cmap='gray')
-    axs[i, 1].scatter(locations[1], locations[2], s=300, facecolors='none', edgecolors='r')
+    axs[i, 1].scatter(scatters[1], scatters[2], s=300, facecolors='none', edgecolors='r')
     axs[i, 1].set_title(f'Injected shape: {test_injected.shape} | Slice: {z}')
 plt.savefig(visualization_path, bbox_inches='tight')
