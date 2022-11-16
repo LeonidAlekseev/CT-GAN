@@ -91,7 +91,8 @@ class Upload(Resource):
         data_object = data.stream._file  
         zip_object = zipfile.ZipFile(data_object)
         for el in zip_object.infolist():
-            if re.match(r'*.dcm$', el.filename):
+            if '/' not in el.filename and el.filename.endswith('.dcm'):
+                print(el.filename)
                 zip_object.extract(el, path=save_dir)
         return {
             'message' : 'Successfully uploaded',
