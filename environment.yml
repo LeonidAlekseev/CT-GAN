@@ -8,6 +8,7 @@ dependencies:
   - _tflow_select=2.1.0=gpu
   - absl-py=0.15.0=pyhd3eb1b0_0
   - alsa-lib=1.2.8=h166bdaf_0
+  - aniso8601=9.0.1=pyhd8ed1ab_0
   - astor=0.8.1=py37h06a4308_0
   - attr=2.5.1=h166bdaf_1
   - backcall=0.2.0=pyh9f0ad1d_0
@@ -19,12 +20,13 @@ dependencies:
   - brotlipy=0.7.0=py37h540881e_1004
   - bzip2=1.0.8=h7f98852_4
   - c-ares=1.18.1=h7f98852_0
-  - ca-certificates=2022.07.19=h06a4308_0
+  - ca-certificates=2022.9.24=ha878542_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
-  - certifi=2022.6.15=py37h06a4308_0
+  - certifi=2022.9.24=pyhd8ed1ab_0
   - cffi=1.15.1=py37h43b0acd_1
   - charset-normalizer=2.1.1=pyhd8ed1ab_0
+  - click=8.1.3=py37h89c1867_0
   - cloudpickle=2.2.0=pyhd8ed1ab_0
   - colorama=0.4.6=pyhd8ed1ab_0
   - cryptography=37.0.4=py37h38fbfac_0
@@ -43,6 +45,8 @@ dependencies:
   - entrypoints=0.4=pyhd8ed1ab_0
   - expat=2.5.0=h27087fc_0
   - fftw=3.3.10=nompi_hf0379b8_105
+  - flask=1.1.2=pyh9f0ad1d_0
+  - flask-restx=0.5.1=pyhd8ed1ab_0
   - font-ttf-dejavu-sans-mono=2.37=hab24e00_0
   - font-ttf-inconsolata=3.000=h77eed37_0
   - font-ttf-source-code-pro=2.038=h77eed37_0
@@ -71,6 +75,7 @@ dependencies:
   - ipython=7.32.0=py37h89c1867_0
   - ipython_genutils=0.2.0=py_1
   - ipywidgets=7.7.0=pyhd8ed1ab_0
+  - itsdangerous=1.1.0=py_0
   - jack=1.9.21=he978b8e_1
   - jedi=0.18.1=pyhd8ed1ab_2
   - jinja2=2.11.3=pyhd8ed1ab_2
@@ -168,7 +173,7 @@ dependencies:
   - nss=3.78=h2350873_0
   - numpy=1.21.6=py37h976b520_0
   - openjpeg=2.5.0=h7d73246_1
-  - openssl=1.1.1q=h7f8727e_0
+  - openssl=1.1.1s=h166bdaf_0
   - packaging=21.3=pyhd8ed1ab_0
   - pandas=1.3.5=py37he8f5f7f_0
   - pandocfilters=1.5.0=pyhd8ed1ab_0
