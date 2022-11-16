@@ -38,7 +38,7 @@ os.makedirs(app.config['UPLOAD_DIR'], exist_ok=True)
 
 blueprint = Blueprint('api', __name__)
 api = Api(blueprint, version='1.0', title='Prediction API',
-    description='Predict segmentation for target')
+    description='Predict generation for target')
 app.register_blueprint(blueprint, url_prefix="/api")
 
 upload_parser = api.parser()
