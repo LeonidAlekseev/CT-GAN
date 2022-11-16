@@ -18,6 +18,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--task_form', type=str, required=True, help="task form")
+parser.add_argument('-w', '--model_weights_path', type=str, required=True, help="model weights path")
 parser.add_argument('-d', '--data_path', type=str, required=True, help="data path")
 parser.add_argument('-l', '--locations', type=str, required=True, help="locations")
 parser.add_argument('-p', '--prediction_path', type=str, required=True, help="prediction path")
@@ -25,14 +26,15 @@ parser.add_argument('-v', '--visualization_path', type=str, required=True, help=
 args = parser.parse_args()
 
 task_form = args.task_form
+model_weights_path = args.model_weights_path
 data_path = args.data_path
-locations = [s.split(',') for s in args.locations.split(';')]
+locations = args.locations
 prediction_path = args.prediction_path
 visualization_path = args.visualization_path
 
 
 class scan_manipulator:
-    def __init__(self, model_inj_path=None, model_rem_path=None):
+    def __init__(self, model_path):
         self.scan = None
         self.load_path = None
         self.m_zlims = config['mask_zlims']
@@ -40,20 +42,20 @@ class scan_manipulator:
         self.m_xlims = config['mask_xlims']
 
         #load model and parameters
-        self.model_inj_path = model_inj_path
-        self.model_rem_path = model_rem_path
+        self.model_inj_path = os.path.join(model_path, 'inject')
+        self.model_rem_path = os.path.join(model_path, 'remove')
 
         #load models
-        if os.path.exists(os.path.join(self.model_inj_path,"G_model.h5")):
-            self.generator_inj = load_model(os.path.join(self.model_inj_path,"G_model.h5"))
+        if os.path.exists(os.path.join(self.model_inj_path, "G_model.h5")):
+            self.generator_inj = load_model(os.path.join(self.model_inj_path, "G_model.h5"))
             # load normalization params
             self.norm_inj = np.load(os.path.join(self.model_inj_path, 'normalization.npy'))
             # load equalization params
             self.eq_inj = histEq([], path=os.path.join(self.model_inj_path, 'equalization.pkl'))
         else:
             self.generator_inj = None
-        if os.path.exists(os.path.join(self.model_rem_path,"G_model.h5")):
-            self.generator_rem = load_model(os.path.join(self.model_rem_path,"G_model.h5"))
+        if os.path.exists(os.path.join(self.model_rem_path, "G_model.h5")):
+            self.generator_rem = load_model(os.path.join(self.model_rem_path, "G_model.h5"))
             # load normalization params
             self.norm_rem = np.load(os.path.join(self.model_rem_path, 'normalization.npy'))
             # load equalization params
@@ -187,8 +189,10 @@ nifti_injected_path = prediction_path + '.nii.gz'
 dicom_injected_path = os.join(prediction_path, 'dicom')
 
 
-injector = scan_manipulator()
+injector = scan_manipulator(model_path=model_weights_path)
 injector.load_target_scan(data_path)
+locations = [s.split(',') for s in locations.split(';')]
+locations = [[s[2], s[0], s[1]] for s in locations]
 for loc in locations:
     injector.tamper(np.array(loc), action='inject', isVox=True)
 injector.save_tampered_scan(dicom_injected_path, output_type='dicom')
@@ -202,9 +206,9 @@ test_injected = np.transpose(test_injected_nib.get_fdata(), (2, 1, 0))[:, -1::-1
 
 scatters = [[],[],[]]
 for x,y,z in locations:
-    scatters[0].append(z)
     scatters[1].append(x)
     scatters[2].append(y)
+    scatters[0].append(z)
 fig, axs = plt.subplots(3, 2, figsize=(12, 18))
 for i, z in enumerate(locations[0]):
     axs[i, 0].imshow(test_image[z], cmap='gray')
